@@ -1,0 +1,3073 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>PROFT PGL - Platform Investasi Modern</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* [CSS SAMA PERSIS SEPERTI SEBELUMNYA, TIDAK DIUBAH] */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+        }
+
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --warning: #f72585;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --gradient: linear-gradient(135deg, #667eea, #764ba2);
+            --gradient-2: linear-gradient(135deg, #f72585, #b5179e);
+            --gradient-3: linear-gradient(135deg, #4cc9f0, #4361ee);
+            --bg-primary: #ffffff;
+            --bg-secondary: #f0f2f5;
+            --text-primary: #1a1a2e;
+            --text-secondary: #4a4a6a;
+            --card-bg: #ffffff;
+            --border-color: #e0e0e0;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --shadow-hover: 0 20px 40px rgba(102,126,234,0.3);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --text-primary: #ffffff;
+            --text-secondary: #b8b8d4;
+            --card-bg: #0f0f1f;
+            --border-color: #2a2a4a;
+            --shadow: 0 10px 30px rgba(0,0,0,0.5);
+            --shadow-hover: 0 20px 40px rgba(102,126,234,0.4);
+        }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(102, 126, 234, 0.05) 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(247, 37, 133, 0.05) 0%, transparent 30%),
+                radial-gradient(circle at 40% 80%, rgba(76, 201, 240, 0.05) 0%, transparent 30%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(102, 126, 234, 0.6); }
+        }
+
+        .auth-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .auth-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .auth-bg i {
+            position: absolute;
+            color: rgba(255,255,255,0.1);
+            font-size: 50px;
+            animation: float 6s infinite;
+        }
+
+        .auth-bg i:nth-child(1) { top: 10%; left: 10%; }
+        .auth-bg i:nth-child(2) { top: 30%; right: 15%; animation-delay: 1s; }
+        .auth-bg i:nth-child(3) { bottom: 20%; left: 20%; animation-delay: 2s; }
+        .auth-bg i:nth-child(4) { bottom: 40%; right: 25%; animation-delay: 3s; }
+        .auth-bg i:nth-child(5) { top: 50%; left: 30%; animation-delay: 4s; }
+
+        .auth-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 30px;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            animation: slideUp 0.8s;
+            position: relative;
+            z-index: 10;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .auth-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ffd700, #667eea, #f72585);
+            border-radius: 32px;
+            z-index: -1;
+            opacity: 0.5;
+            filter: blur(10px);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .auth-header i {
+            font-size: 70px;
+            color: white;
+            margin-bottom: 15px;
+            animation: pulse 2s infinite;
+            filter: drop-shadow(0 0 20px rgba(255,255,255,0.5));
+        }
+
+        .auth-header h1 {
+            font-size: 36px;
+            color: white;
+            text-shadow: 0 0 20px rgba(255,255,255,0.5);
+        }
+
+        .auth-header h1 span {
+            color: #ffd700;
+            text-shadow: 0 0 20px rgba(255,215,0,0.5);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: white;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            color: white;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #ffd700;
+            background: rgba(255,255,255,0.25);
+            box-shadow: 0 0 20px rgba(255,215,0,0.3);
+        }
+
+        .btn-auth {
+            width: 100%;
+            padding: 12px;
+            background: white;
+            border: none;
+            border-radius: 10px;
+            color: #667eea;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-auth::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        .btn-auth:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .ticker-wrap {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f72585);
+            padding: 8px 0;
+            z-index: 1000;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .ticker-content {
+            display: flex;
+            animation: ticker 30s linear infinite;
+            white-space: nowrap;
+        }
+
+        .ticker-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 20px;
+            border-radius: 30px;
+            margin: 0 10px;
+            color: white;
+            font-size: 12px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        @keyframes ticker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        #mainPage {
+            display: none;
+            min-height: 100vh;
+            background: var(--bg-primary);
+            padding-bottom: 70px;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 50px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 0 5px 15px rgba(102,126,234,0.4);
+            animation: glow 2s infinite;
+        }
+
+        .top-navbar {
+            background: var(--card-bg);
+            padding: 12px 0;
+            position: fixed;
+            top: 40px;
+            width: 100%;
+            z-index: 998;
+            box-shadow: var(--shadow);
+            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .top-navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .logo i {
+            font-size: 24px;
+            color: var(--primary);
+            animation: pulse 2s infinite;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .balance {
+            background: var(--gradient-3);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 25px;
+            font-size: 13px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 5px 15px rgba(76, 201, 240, 0.3);
+        }
+
+        .balance i {
+            font-size: 14px;
+        }
+
+        .user-name {
+            background: var(--bg-secondary);
+            padding: 6px 15px;
+            border-radius: 25px;
+            font-size: 13px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border: 1px solid var(--border-color);
+        }
+
+        .stats-section {
+            padding: 100px 0 15px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .stat-card {
+            background: var(--gradient);
+            border-radius: 20px;
+            padding: 20px 15px;
+            text-align: center;
+            color: white;
+            animation: slideUp 0.5s;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(102,126,234,0.4);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3), transparent);
+            animation: pulse 3s infinite;
+        }
+
+        .stat-card i {
+            font-size: 28px;
+            margin-bottom: 5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-card h3 {
+            font-size: 22px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-card p {
+            font-size: 11px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .actions-section {
+            padding: 15px 0;
+        }
+
+        .actions-grid {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn-action {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            transition: all 0.3s;
+            flex: 1;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn-action.deposit {
+            background: linear-gradient(135deg, #4cc9f0, #4361ee);
+        }
+
+        .btn-action.withdraw {
+            background: linear-gradient(135deg, #f72585, #b5179e);
+        }
+
+        .btn-action::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--card-bg);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+            z-index: 997;
+            border-top: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            padding: 5px 15px;
+            border-radius: 10px;
+            transition: all 0.3s;
+            color: var(--text-secondary);
+            position: relative;
+        }
+
+        .nav-item i {
+            font-size: 22px;
+            transition: all 0.3s;
+        }
+
+        .nav-item span {
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+            background: rgba(67, 97, 238, 0.1);
+        }
+
+        .nav-item.active i {
+            transform: translateY(-3px);
+        }
+
+        .content-page {
+            display: none;
+            padding: 20px 0;
+            animation: slideUp 0.5s;
+        }
+
+        .content-page.active {
+            display: block;
+        }
+
+        .page-title {
+            font-size: 26px;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            text-align: center;
+        }
+
+        .page-title span {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        .page-title span::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient);
+            border-radius: 3px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .info-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 25px 15px;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.1), transparent);
+            animation: pulse 4s infinite;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .info-card i {
+            font-size: 35px;
+            color: var(--primary);
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .info-card h4 {
+            font-size: 15px;
+            margin-bottom: 5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .info-card .value {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary);
+            position: relative;
+            z-index: 1;
+        }
+
+        .products-scroll {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            padding: 10px 0 20px;
+            scroll-snap-type: x mandatory;
+        }
+
+        .products-scroll::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .products-scroll::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+            border-radius: 10px;
+        }
+
+        .products-scroll::-webkit-scrollbar-thumb {
+            background: var(--gradient);
+            border-radius: 10px;
+        }
+
+        .product-card {
+            min-width: 260px;
+            background: var(--card-bg);
+            border-radius: 25px;
+            padding: 25px 20px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+            scroll-snap-align: start;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.1), transparent);
+            animation: pulse 4s infinite;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary);
+        }
+
+        .product-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+            animation: float 3s infinite;
+        }
+
+        .product-icon i {
+            font-size: 28px;
+            color: white;
+        }
+
+        .product-card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .product-price {
+            font-size: 26px;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 10px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .product-profit {
+            background: var(--bg-secondary);
+            padding: 12px;
+            border-radius: 12px;
+            margin: 15px 0;
+            font-size: 13px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-invest {
+            width: 100%;
+            padding: 12px;
+            background: var(--gradient);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .btn-invest::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        .btn-invest:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(102,126,234,0.4);
+        }
+
+        .history-list {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .history-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .history-item:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow);
+            border-color: var(--primary);
+        }
+
+        .history-item.pending {
+            border-left: 4px solid var(--warning);
+        }
+
+        .history-item.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .history-empty {
+            text-align: center;
+            padding: 50px;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .payment-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .payment-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 20px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .payment-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.1), transparent);
+            animation: pulse 4s infinite;
+        }
+
+        .payment-card:hover {
+            transform: translateY(-5px);
+            background: var(--gradient);
+            color: white;
+            box-shadow: var(--shadow-hover);
+        }
+
+        .payment-card i {
+            font-size: 30px;
+            color: var(--primary);
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s;
+        }
+
+        .payment-card:hover i {
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .payment-card div {
+            position: relative;
+            z-index: 1;
+        }
+
+        .payment-card small {
+            font-size: 10px;
+            opacity: 0.8;
+        }
+
+        .payment-card.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .payment-card.disabled:hover {
+            background: var(--card-bg);
+            color: var(--text-primary);
+            transform: none;
+        }
+
+        .payment-card.disabled i {
+            color: var(--text-secondary);
+        }
+
+        .referral-card {
+            background: var(--gradient);
+            border-radius: 25px;
+            padding: 30px 20px;
+            color: white;
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(102,126,234,0.4);
+        }
+
+        .referral-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3), transparent);
+            animation: pulse 3s infinite;
+        }
+
+        .referral-card i {
+            font-size: 50px;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+            animation: float 3s infinite;
+        }
+
+        .referral-card h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .referral-code {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 22px;
+            letter-spacing: 3px;
+            margin: 15px auto;
+            max-width: 220px;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+            border: 2px dashed rgba(255,255,255,0.3);
+            transition: all 0.3s;
+        }
+
+        .referral-code:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.05);
+        }
+
+        .referral-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 15px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .referral-stats div {
+            text-align: center;
+        }
+
+        .referral-stats i {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .missions-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        .mission-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 20px 12px;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mission-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.1), transparent);
+            animation: pulse 4s infinite;
+        }
+
+        .mission-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary);
+        }
+
+        .mission-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            position: relative;
+            z-index: 1;
+            animation: float 3s infinite;
+        }
+
+        .mission-icon i {
+            font-size: 22px;
+            color: white;
+        }
+
+        .mission-card h4 {
+            font-size: 14px;
+            margin-bottom: 5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .mission-reward {
+            color: var(--success);
+            font-weight: bold;
+            margin: 8px 0;
+            font-size: 14px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-mission {
+            padding: 8px 18px;
+            background: var(--gradient-3);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .btn-mission::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        .btn-mission:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(76, 201, 240, 0.4);
+        }
+
+        .btn-mission:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .settings-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            padding: 10px;
+        }
+
+        .settings-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 15px;
+        }
+
+        .settings-item:last-child {
+            border-bottom: none;
+        }
+
+        .settings-item:hover {
+            background: var(--bg-secondary);
+            transform: translateX(5px);
+        }
+
+        .settings-item i {
+            width: 35px;
+            height: 35px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+        }
+
+        .settings-item div h4 {
+            font-size: 15px;
+            margin-bottom: 3px;
+        }
+
+        .qris-container {
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 20px;
+        }
+
+        .qris-image {
+            width: 250px;
+            height: 250px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(102,126,234,0.4);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .qris-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 40px rgba(102,126,234,0.6);
+        }
+
+        .qris-image img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 10px;
+        }
+
+        .qris-info {
+            margin-top: 15px;
+            padding: 15px;
+            background: var(--bg-secondary);
+            border-radius: 15px;
+        }
+
+        .qris-info .nmid {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 5px 0;
+        }
+
+        .qris-info .merchant {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .qris-admin-badge {
+            background: linear-gradient(135deg, #f72585, #b5179e);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: inline-block;
+            margin: 10px 0;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 30px;
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+            animation: slideUp 0.3s;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-content::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--gradient);
+            border-radius: 32px;
+            z-index: -1;
+            opacity: 0.3;
+            filter: blur(10px);
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: all 0.3s;
+            z-index: 1;
+        }
+
+        .close:hover {
+            color: var(--warning);
+            transform: rotate(90deg);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 14px;
+            color: var(--text-primary);
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(102,126,234,0.3);
+        }
+
+        .payment-number {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--success);
+            text-align: center;
+            margin: 15px 0;
+            padding: 12px;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .payment-number:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--border-color);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 15px 0;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: var(--bg-secondary);
+        }
+
+        .upload-area i {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: var(--gradient);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .btn-submit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(102,126,234,0.4);
+        }
+
+        .language-selector {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--card-bg);
+            border-radius: 25px;
+            padding: 25px;
+            width: 300px;
+            box-shadow: var(--shadow-hover);
+            z-index: 2000;
+            border: 1px solid var(--border-color);
+        }
+
+        .language-selector.active {
+            display: block;
+            animation: slideUp 0.3s;
+        }
+
+        .language-option {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 10px;
+        }
+
+        .language-option:hover {
+            background: var(--bg-secondary);
+            transform: translateX(5px);
+        }
+
+        .language-option:last-child {
+            border-bottom: none;
+        }
+
+        .live-chat {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            z-index: 996;
+            box-shadow: 0 5px 20px rgba(37,211,102,0.4);
+            animation: pulse 2s infinite;
+        }
+
+        .live-chat::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(37,211,102,0.4);
+            animation: pulse 2s infinite;
+        }
+
+        .admin-panel {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            width: 300px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 20px;
+            z-index: 1000;
+            display: none;
+            box-shadow: var(--shadow-hover);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .admin-panel.show {
+            display: block;
+        }
+
+        .admin-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .pending-item {
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 12px;
+        }
+
+        .pending-item button {
+            padding: 5px 10px;
+            margin: 5px 2px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        .btn-approve {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-reject {
+            background: var(--warning);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .actions-grid {
+                flex-direction: column;
+            }
+            
+            .missions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .payment-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .user-name span {
+                display: none;
+            }
+            
+            .qris-image {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .admin-panel {
+                width: 90%;
+                right: 5%;
+                top: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <!-- Language Selector -->
+    <div class="language-selector" id="languageSelector">
+        <h3 style="margin-bottom: 15px;">Pilih Bahasa</h3>
+        <div class="language-option" onclick="setLanguage('id')">🇮🇩 Indonesia</div>
+        <div class="language-option" onclick="setLanguage('en')">🇬🇧 English</div>
+        <div class="language-option" onclick="setLanguage('cn')">🇨🇳 中文</div>
+        <div style="text-align: center; margin-top: 15px;">
+            <button class="btn-submit" onclick="closeLanguageSelector()">Tutup</button>
+        </div>
+    </div>
+
+    <!-- Admin Panel (untuk konfirmasi deposit & ganti QRIS) -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-title">
+            <i class="fas fa-shield-alt"></i> Panel Admin
+        </div>
+        <div style="margin-bottom: 15px;">
+            <button class="btn-mission" onclick="openChangeQRIS()" style="width: 100%; margin-bottom: 10px; background: linear-gradient(135deg, #f72585, #b5179e);">
+                <i class="fas fa-qrcode"></i> Ganti QRIS
+            </button>
+            <button class="btn-mission" onclick="loadPendingDeposits()" style="width: 100%;">
+                <i class="fas fa-sync-alt"></i> Refresh Pending
+            </button>
+        </div>
+        <div id="pendingDeposits"></div>
+    </div>
+
+    <!-- Halaman Login -->
+    <div id="loginPage" class="auth-page">
+        <div class="auth-bg">
+            <i class="fas fa-robot"></i>
+            <i class="fas fa-chart-line"></i>
+            <i class="fas fa-coins"></i>
+            <i class="fas fa-rocket"></i>
+            <i class="fas fa-microchip"></i>
+        </div>
+        <div class="auth-card">
+            <div class="auth-header">
+                <i class="fas fa-robot"></i>
+                <h1>PROFT <span>PGL</span></h1>
+                <p>Platform Investasi Modern</p>
+            </div>
+            
+            <div class="input-group">
+                <label><i class="fas fa-user"></i> Email / No. HP</label>
+                <input type="text" id="loginUsername" placeholder="Contoh: user@email.com / 08123456789">
+            </div>
+            
+            <div class="input-group">
+                <label><i class="fas fa-lock"></i> Password</label>
+                <input type="password" id="loginPassword" placeholder="Masukkan password">
+            </div>
+            
+            <button class="btn-auth" onclick="handleLogin()">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+            
+            <div style="text-align: center; margin-top: 15px; color: white; font-size: 13px;">
+                <p>Belum punya akun? <a href="#" onclick="showRegister()" style="color: #ffd700; font-weight: bold;">Daftar Sekarang</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Halaman Register -->
+    <div id="registerPage" class="auth-page" style="display: none;">
+        <div class="auth-card">
+            <div class="auth-header">
+                <i class="fas fa-user-plus"></i>
+                <h1>Daftar <span>PROFT PGL</span></h1>
+                <p>Bergabung dan dapatkan bonus</p>
+            </div>
+            
+            <div class="input-group">
+                <label><i class="fas fa-user"></i> Nama Lengkap</label>
+                <input type="text" id="registerName" placeholder="Nama lengkap">
+            </div>
+            
+            <div class="input-group">
+                <label><i class="fas fa-envelope"></i> Email</label>
+                <input type="email" id="registerEmail" placeholder="Email">
+            </div>
+            
+            <div class="input-group">
+                <label><i class="fas fa-phone"></i> No. HP</label>
+                <input type="tel" id="registerPhone" placeholder="Nomor HP">
+            </div>
+            
+            <div class="input-group">
+                <label><i class="fas fa-lock"></i> Password</label>
+                <input type="password" id="registerPassword" placeholder="Password (min 6 karakter)">
+            </div>
+            
+            <div class="input-group">
+                <label><i class="fas fa-gift"></i> Kode Referral (Opsional)</label>
+                <input type="text" id="registerReferral" placeholder="Masukkan kode referral">
+            </div>
+            
+            <button class="btn-auth" onclick="handleRegister()">
+                <i class="fas fa-user-plus"></i> Daftar
+            </button>
+            
+            <div style="text-align: center; margin-top: 15px; color: white; font-size: 13px;">
+                <p>Sudah punya akun? <a href="#" onclick="showLogin()" style="color: #ffd700; font-weight: bold;">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ticker Notifikasi -->
+    <div class="ticker-wrap" id="tickerWrap" style="display: none;">
+        <div class="ticker-content" id="tickerContent"></div>
+    </div>
+
+    <!-- Halaman Utama -->
+    <div id="mainPage">
+        <!-- Top Navbar -->
+        <nav class="top-navbar">
+            <div class="container">
+                <div class="logo" ondblclick="checkAdminAccess()">
+                    <i class="fas fa-robot"></i> PROFT PGL
+                </div>
+                <div class="user-menu">
+                    <div class="balance" id="userBalance">
+                        <i class="fas fa-wallet"></i> Rp 0
+                    </div>
+                    <div class="user-name" id="userName">
+                        <i class="fas fa-user-circle"></i> <span>Investor</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Stats -->
+        <section class="stats-section">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <i class="fas fa-users"></i>
+                        <h3 id="totalUsers">691</h3>
+                        <p>Total Member</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-arrow-up"></i>
+                        <h3 id="todayWithdraw">Rp 30JT+</h3>
+                        <p>WD Hari Ini</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-globe"></i>
+                        <h3 id="onlineUsers">691</h3>
+                        <p>Online</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="actions-section">
+            <div class="container">
+                <div class="actions-grid">
+                    <button class="btn-action deposit" onclick="openModal('deposit')">
+                        <i class="fas fa-plus-circle"></i> Deposit
+                    </button>
+                    <button class="btn-action withdraw" onclick="openModal('withdraw')">
+                        <i class="fas fa-arrow-up"></i> Withdraw
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== CONTENT PAGES ===== -->
+        <div class="container">
+            <!-- Page: Home/Dashboard -->
+            <div id="page-home" class="content-page active">
+                <h2 class="page-title"><span>Dashboard</span> Utama</h2>
+                
+                <!-- Info Cards -->
+                <div class="cards-grid">
+                    <div class="info-card">
+                        <i class="fas fa-wallet"></i>
+                        <h4>Total Profit</h4>
+                        <div class="value" id="totalProfit">Rp 0</div>
+                    </div>
+                    <div class="info-card">
+                        <i class="fas fa-box"></i>
+                        <h4>Produk Aktif</h4>
+                        <div class="value" id="activeProducts">0</div>
+                    </div>
+                </div>
+
+                <!-- Products Horizontal -->
+                <h3 style="margin: 25px 0 15px;"><i class="fas fa-tags"></i> Paket Investasi</h3>
+                <div class="products-scroll" id="productsContainer"></div>
+
+                <!-- Misi Harian -->
+                <h3 style="margin: 25px 0 15px;"><i class="fas fa-tasks"></i> Misi Harian</h3>
+                <div class="missions-grid" id="missionsContainer"></div>
+
+                <!-- Payment Methods -->
+                <h3 style="margin: 25px 0 15px;"><i class="fas fa-credit-card"></i> Metode Pembayaran</h3>
+                <div class="payment-grid">
+                    <div class="payment-card" onclick="openQRIS()">
+                        <i class="fas fa-qrcode"></i>
+                        <div>QRIS</div>
+                        <small>Otomatis</small>
+                    </div>
+                    <div class="payment-card" onclick="openEWalletDeposit('DANA')">
+                        <i class="fas fa-mobile-alt"></i>
+                        <div>DANA</div>
+                        <small>Pending</small>
+                    </div>
+                    <div class="payment-card" onclick="openEWalletDeposit('OVO')">
+                        <i class="fas fa-wallet"></i>
+                        <div>OVO</div>
+                        <small>Pending</small>
+                    </div>
+                    <div class="payment-card" onclick="openEWalletDeposit('GoPay')">
+                        <i class="fab fa-google-pay"></i>
+                        <div>GoPay</div>
+                        <small>Pending</small>
+                    </div>
+                    <div class="payment-card disabled" onclick="alert('Bank BRI sedang offline')">
+                        <i class="fas fa-university"></i>
+                        <div>BRI</div>
+                        <small>Offline</small>
+                    </div>
+                    <div class="payment-card" onclick="openEWalletDeposit('ShopeePay')">
+                        <i class="fas fa-shopping-cart"></i>
+                        <div>Shopee</div>
+                        <small>Pending</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page: Produk Saya -->
+            <div id="page-products" class="content-page">
+                <h2 class="page-title">Produk <span>Saya</span></h2>
+                <div id="myProductsList" class="history-list"></div>
+            </div>
+
+            <!-- Page: Profit -->
+            <div id="page-profit" class="content-page">
+                <h2 class="page-title">Riwayat <span>Profit</span></h2>
+                <div class="cards-grid" style="margin-bottom: 20px;">
+                    <div class="info-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h4>Total Profit</h4>
+                        <div class="value" id="totalProfitPage">Rp 0</div>
+                    </div>
+                </div>
+                <div id="profitList" class="history-list"></div>
+            </div>
+
+            <!-- Page: Referral -->
+            <div id="page-referral" class="content-page">
+                <h2 class="page-title">Program <span>Referral</span></h2>
+                
+                <div class="referral-card">
+                    <i class="fas fa-gift"></i>
+                    <h3>Undang Teman</h3>
+                    <p>Dapatkan Rp 25.000 untuk setiap teman yang deposit</p>
+                    <div class="referral-code" id="referralCode" onclick="copyReferralCode()">
+                        <i class="fas fa-copy"></i> LOADING...
+                    </div>
+                    <div class="referral-stats">
+                        <div>
+                            <i class="fas fa-users"></i>
+                            <div><span id="referralCount">0</span> Teman</div>
+                        </div>
+                        <div>
+                            <i class="fas fa-coins"></i>
+                            <div><span id="referralCommission">Rp 0</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="margin: 20px 0;">Daftar Teman</h3>
+                <div id="referralList" class="history-list"></div>
+            </div>
+
+            <!-- Page: Riwayat -->
+            <div id="page-history" class="content-page">
+                <h2 class="page-title">Riwayat <span>Transaksi</span></h2>
+                
+                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                    <button class="btn-mission" onclick="loadHistory('deposit')">Deposit</button>
+                    <button class="btn-mission" onclick="loadHistory('withdraw')">Withdraw</button>
+                </div>
+                
+                <div id="historyList" class="history-list"></div>
+            </div>
+
+            <!-- Page: Pengaturan -->
+            <div id="page-settings" class="content-page">
+                <h2 class="page-title">Pengaturan <span>Akun</span></h2>
+                
+                <div class="settings-card">
+                    <div class="settings-item" onclick="openChangePassword()">
+                        <i class="fas fa-key"></i>
+                        <div>
+                            <h4>Ubah Password</h4>
+                            <p style="font-size: 12px; color: var(--text-secondary);">Ganti password akun Anda</p>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-item" onclick="openLanguageSelector()">
+                        <i class="fas fa-language"></i>
+                        <div>
+                            <h4>Ubah Bahasa</h4>
+                            <p style="font-size: 12px; color: var(--text-secondary);">Indonesia</p>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-item" onclick="if(confirm('Yakin ingin logout?')) logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <div>
+                            <h4>Logout</h4>
+                            <p style="font-size: 12px; color: var(--text-secondary);">Keluar dari akun</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <div class="nav-item active" onclick="switchPage('home')">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </div>
+            <div class="nav-item" onclick="switchPage('products')">
+                <i class="fas fa-box"></i>
+                <span>Produk</span>
+            </div>
+            <div class="nav-item" onclick="switchPage('profit')">
+                <i class="fas fa-chart-line"></i>
+                <span>Profit</span>
+            </div>
+            <div class="nav-item" onclick="switchPage('referral')">
+                <i class="fas fa-gift"></i>
+                <span>Referral</span>
+            </div>
+            <div class="nav-item" onclick="switchPage('history')">
+                <i class="fas fa-history"></i>
+                <span>Riwayat</span>
+            </div>
+            <div class="nav-item" onclick="switchPage('settings')">
+                <i class="fas fa-cog"></i>
+                <span>Setting</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Chat -->
+    <div class="live-chat" onclick="openLiveChat()">
+        <i class="fas fa-headset"></i>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div id="passwordModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closePasswordModal()">&times;</span>
+            <h3 style="margin-bottom: 20px;">Ubah Password</h3>
+            <div class="form-group">
+                <label>Password Lama</label>
+                <input type="password" id="oldPassword" placeholder="Masukkan password lama">
+            </div>
+            <div class="form-group">
+                <label>Password Baru</label>
+                <input type="password" id="newPassword" placeholder="Masukkan password baru">
+            </div>
+            <div class="form-group">
+                <label>Konfirmasi Password Baru</label>
+                <input type="password" id="confirmPassword" placeholder="Konfirmasi password baru">
+            </div>
+            <button class="btn-submit" onclick="changePassword()">Ubah Password</button>
+        </div>
+    </div>
+
+    <!-- QRIS Change Modal (Hanya Admin) -->
+    <div id="qrisChangeModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeQRISChangeModal()">&times;</span>
+            <h3 style="margin-bottom: 20px;">Ganti QRIS</h3>
+            <div class="form-group">
+                <label>NMID / Nomer ID QRIS</label>
+                <input type="text" id="newQRISNmid" placeholder="Contoh: ID1026477069813" value="ID1026477069813">
+            </div>
+            <div class="form-group">
+                <label>Nama Merchant</label>
+                <input type="text" id="newQRISMerchant" placeholder="Contoh: marmer" value="marmer">
+            </div>
+            <div class="form-group">
+                <label>Upload Gambar QRIS (Opsional)</label>
+                <div class="upload-area" onclick="document.getElementById('qrisImageFile').click()">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Klik untuk upload gambar QRIS</p>
+                    <input type="file" id="qrisImageFile" accept="image/*" style="display: none;" onchange="previewQRISImage(this)">
+                </div>
+                <div id="qrisFileName" style="font-size: 12px; margin-top: 5px;"></div>
+            </div>
+            <button class="btn-submit" onclick="saveQRISChange()">Simpan QRIS</button>
+        </div>
+    </div>
+
+    <script>
+        // ===== KONFIGURASI =====
+        const PAYMENT_NUMBER = '083145066569';
+        const WHATSAPP_NUMBER = '6283145066569';
+        const ADMIN_PASSWORD = 'admin123';
+
+        // ===== DATA QRIS (HANYA ADMIN YANG BISA UBAH) =====
+        let qrisData = JSON.parse(localStorage.getItem('proft_qris')) || {
+            nmid: 'ID1026477069813',
+            merchant: 'marmer',
+            image: null // base64 image
+        };
+
+        // ===== DATABASE =====
+        let users = JSON.parse(localStorage.getItem('proft_users')) || [];
+        let pendingDeposits = JSON.parse(localStorage.getItem('proft_pending')) || [];
+        let totalStats = JSON.parse(localStorage.getItem('proft_stats')) || {
+            totalUsers: 691,
+            todayWithdraw: 30000000,
+            onlineUsers: 691
+        };
+
+        // Produk
+        const products = [
+            { id: 1, name: 'Starter', price: 20000, daily: 5000, total: 150000, icon: 'fa-seedling' },
+            { id: 2, name: 'Basic', price: 50000, daily: 10000, total: 300000, icon: 'fa-tree' },
+            { id: 3, name: 'Bronze', price: 100000, daily: 20000, total: 600000, icon: 'fa-fire' },
+            { id: 4, name: 'Silver', price: 200000, daily: 30000, total: 900000, icon: 'fa-gem' },
+            { id: 5, name: 'Gold', price: 300000, daily: 40000, total: 1200000, icon: 'fa-crown' },
+            { id: 6, name: 'Platinum', price: 400000, daily: 60000, total: 1800000, icon: 'fa-star' },
+            { id: 7, name: 'Diamond', price: 500000, daily: 80000, total: 2400000, icon: 'fa-rocket' }
+        ];
+
+        let currentUser = null;
+        let currentLanguage = 'id';
+        let isAdmin = false;
+        let adminClickCount = 0;
+
+        // ===== INIT =====
+        document.addEventListener('DOMContentLoaded', function() {
+            renderProducts();
+            startNotifications();
+            checkLoginSession();
+        });
+
+        function checkLoginSession() {
+            const savedUser = localStorage.getItem('proft_current_user');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                updateUIAfterLogin();
+            }
+        }
+
+        function checkAdminAccess() {
+            adminClickCount++;
+            
+            if (adminClickCount >= 3) {
+                const pwd = prompt('Masukkan password admin:');
+                if (pwd === ADMIN_PASSWORD) {
+                    isAdmin = true;
+                    document.getElementById('adminPanel').classList.add('show');
+                    loadPendingDeposits();
+                    alert('✅ Anda masuk sebagai Admin');
+                } else {
+                    alert('❌ Password salah!');
+                }
+                adminClickCount = 0;
+            }
+            
+            // Reset setelah 2 detik
+            setTimeout(() => {
+                adminClickCount = 0;
+            }, 2000);
+        }
+
+        // ===== AUTH =====
+        function handleLogin() {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!username || !password) {
+                alert('Isi semua field!');
+                return;
+            }
+
+            const user = users.find(u => (u.email === username || u.phone === username) && u.password === password);
+
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('proft_current_user', JSON.stringify(currentUser));
+                updateUIAfterLogin();
+            } else {
+                alert('Email/Password salah!');
+            }
+        }
+
+        function handleRegister() {
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const phone = document.getElementById('registerPhone').value;
+            const password = document.getElementById('registerPassword').value;
+            const referralCode = document.getElementById('registerReferral').value;
+
+            if (!name || !email || !phone || !password) {
+                alert('Isi semua field!');
+                return;
+            }
+
+            if (password.length < 6) {
+                alert('Password minimal 6 karakter!');
+                return;
+            }
+
+            if (users.find(u => u.email === email)) {
+                alert('Email sudah terdaftar!');
+                return;
+            }
+
+            if (users.find(u => u.phone === phone)) {
+                alert('Nomor HP sudah terdaftar!');
+                return;
+            }
+
+            // Generate kode referral unik
+            const newReferralCode = generateReferralCode();
+
+            // Buat user baru dengan saldo 0
+            const newUser = {
+                id: Date.now(),
+                name: name,
+                email: email,
+                phone: phone,
+                password: password,
+                balance: 0,
+                profit: 0,
+                investments: [],
+                transactions: [],
+                profits: [],
+                referralCode: newReferralCode,
+                referredBy: referralCode || null,
+                referrals: [],
+                missions: {
+                    daily: { claimed: false, lastClaim: null },
+                    bonus: { claimed: false }
+                },
+                createdAt: new Date().toISOString()
+            };
+
+            // Jika ada kode referral, tambahkan ke referral owner
+            if (referralCode) {
+                const referrer = users.find(u => u.referralCode === referralCode);
+                if (referrer) {
+                    if (!referrer.referrals) referrer.referrals = [];
+                    referrer.referrals.push(newUser.id);
+                    saveUsers();
+                }
+            }
+
+            users.push(newUser);
+            saveUsers();
+
+            // Update stats
+            totalStats.totalUsers++;
+            saveStats();
+
+            alert('Pendaftaran berhasil! Silakan login.');
+            showLogin();
+        }
+
+        function logout() {
+            localStorage.removeItem('proft_current_user');
+            currentUser = null;
+            document.getElementById('mainPage').style.display = 'none';
+            document.getElementById('tickerWrap').style.display = 'none';
+            document.getElementById('loginPage').style.display = 'flex';
+        }
+
+        // ===== UI UPDATE =====
+        function updateUIAfterLogin() {
+            if (!currentUser) return;
+
+            document.getElementById('userName').innerHTML = `<i class="fas fa-user-circle"></i> <span>${currentUser.name}</span>`;
+            document.getElementById('userBalance').innerHTML = `<i class="fas fa-wallet"></i> Rp ${formatNumber(currentUser.balance)}`;
+            document.getElementById('referralCode').innerHTML = `<i class="fas fa-copy"></i> ${currentUser.referralCode}`;
+
+            const referralCount = currentUser.referrals ? currentUser.referrals.length : 0;
+            document.getElementById('referralCount').textContent = referralCount;
+            document.getElementById('referralCommission').textContent = 'Rp ' + formatNumber(referralCount * 25000);
+
+            // Update profit display
+            updateProfitDisplay();
+
+            // Hitung produk aktif
+            const activeProducts = currentUser.investments ? currentUser.investments.length : 0;
+            document.getElementById('activeProducts').textContent = activeProducts;
+
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('registerPage').style.display = 'none';
+            document.getElementById('tickerWrap').style.display = 'block';
+            document.getElementById('mainPage').style.display = 'block';
+
+            renderMissions();
+            loadMyProducts();
+            loadProfitHistory();
+            loadReferralList();
+        }
+
+        function updateProfitDisplay() {
+            if (!currentUser) return;
+            
+            document.getElementById('totalProfit').textContent = 'Rp ' + formatNumber(currentUser.profit || 0);
+            document.getElementById('totalProfitPage').textContent = 'Rp ' + formatNumber(currentUser.profit || 0);
+        }
+
+        // ===== PAGE NAVIGATION =====
+        function switchPage(page) {
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            document.querySelectorAll('.content-page').forEach(p => p.classList.remove('active'));
+            document.getElementById(`page-${page}`).classList.add('active');
+        }
+
+        // ===== PRODUCTS =====
+        function renderProducts() {
+            const container = document.getElementById('productsContainer');
+            let html = '';
+
+            products.forEach(product => {
+                html += `
+                    <div class="product-card">
+                        <div class="product-icon"><i class="fas ${product.icon}"></i></div>
+                        <h3>${product.name}</h3>
+                        <div class="product-price">Rp ${formatNumber(product.price)}</div>
+                        <div class="product-profit">
+                            <div><i class="fas fa-arrow-up" style="color: #4cc9f0;"></i> Profit: Rp ${formatNumber(product.daily)}/hari</div>
+                            <div><i class="fas fa-calendar"></i> 30 hari = Rp ${formatNumber(product.total)}</div>
+                        </div>
+                        <button class="btn-invest" onclick="buyPackage(${product.id})">Beli Sekarang</button>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function buyPackage(productId) {
+            if (!currentUser) return;
+
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            if (currentUser.balance < product.price) {
+                alert('Saldo tidak cukup! Silakan deposit terlebih dahulu.');
+                return;
+            }
+
+            // Kurangi saldo
+            currentUser.balance -= product.price;
+
+            // Tambah investasi
+            const investment = {
+                id: Date.now(),
+                productId: product.id,
+                productName: product.name,
+                amount: product.price,
+                dailyProfit: product.daily,
+                totalProfit: product.total,
+                purchaseDate: new Date().toISOString(),
+                status: 'active'
+            };
+
+            if (!currentUser.investments) currentUser.investments = [];
+            currentUser.investments.push(investment);
+
+            // Tambah profit
+            currentUser.profit = (currentUser.profit || 0) + product.daily;
+
+            // Simpan profit harian
+            const profit = {
+                id: Date.now(),
+                amount: product.daily,
+                description: `Profit ${product.name}`,
+                date: new Date().toISOString()
+            };
+
+            if (!currentUser.profits) currentUser.profits = [];
+            currentUser.profits.push(profit);
+
+            saveCurrentUser();
+            updateUserInDatabase();
+
+            // Update UI
+            document.getElementById('userBalance').innerHTML = `<i class="fas fa-wallet"></i> Rp ${formatNumber(currentUser.balance)}`;
+            updateProfitDisplay();
+            document.getElementById('activeProducts').textContent = currentUser.investments.length;
+
+            alert(`✅ Berhasil membeli paket ${product.name}!\nProfit: Rp ${formatNumber(product.daily)}/hari\nTotal: Rp ${formatNumber(product.total)}`);
+
+            loadMyProducts();
+            loadProfitHistory();
+        }
+
+        // ===== MISSIONS =====
+        function renderMissions() {
+            if (!currentUser) return;
+
+            const container = document.getElementById('missionsContainer');
+            const today = new Date().toDateString();
+            
+            const dailyClaimed = currentUser.missions?.daily?.lastClaim === today;
+            const bonusClaimed = currentUser.missions?.bonus?.claimed;
+            const referralCount = currentUser.referrals ? currentUser.referrals.length : 0;
+
+            container.innerHTML = `
+                <div class="mission-card">
+                    <div class="mission-icon"><i class="fas fa-calendar-day"></i></div>
+                    <h4>Misi Harian</h4>
+                    <div class="mission-reward">+Rp 5.000</div>
+                    <button class="btn-mission" onclick="claimDailyMission()" ${dailyClaimed ? 'disabled' : ''}>
+                        ${dailyClaimed ? 'Sudah' : 'Claim'}
+                    </button>
+                </div>
+                <div class="mission-card">
+                    <div class="mission-icon"><i class="fas fa-users"></i></div>
+                    <h4>Bonus Referral</h4>
+                    <div class="mission-reward">+Rp 25.000</div>
+                    <button class="btn-mission" onclick="claimReferralMission()" ${referralCount === 0 ? 'disabled' : ''}>
+                        ${referralCount > 0 ? 'Claim' : 'Belum'}
+                    </button>
+                </div>
+                <div class="mission-card">
+                    <div class="mission-icon"><i class="fas fa-gift"></i></div>
+                    <h4>Bonus Awal</h4>
+                    <div class="mission-reward">+Rp 10.000</div>
+                    <button class="btn-mission" onclick="claimBonusMission()" ${bonusClaimed ? 'disabled' : ''}>
+                        ${bonusClaimed ? 'Sudah' : 'Claim'}
+                    </button>
+                </div>
+            `;
+        }
+
+        function claimDailyMission() {
+            if (!currentUser) return;
+
+            const today = new Date().toDateString();
+            if (currentUser.missions?.daily?.lastClaim === today) {
+                alert('Misi harian sudah di-claim hari ini!');
+                return;
+            }
+
+            // Tambah saldo
+            currentUser.balance += 5000;
+
+            // Update misi
+            if (!currentUser.missions) currentUser.missions = {};
+            currentUser.missions.daily = { claimed: true, lastClaim: today };
+
+            saveCurrentUser();
+            updateUserInDatabase();
+
+            // Update UI
+            document.getElementById('userBalance').innerHTML = `<i class="fas fa-wallet"></i> Rp ${formatNumber(currentUser.balance)}`;
+            renderMissions();
+
+            alert('✅ Berhasil claim Rp 5.000!');
+        }
+
+        function claimBonusMission() {
+            if (!currentUser) return;
+
+            if (currentUser.missions?.bonus?.claimed) {
+                alert('Bonus awal sudah di-claim!');
+                return;
+            }
+
+            // Tambah saldo
+            currentUser.balance += 10000;
+
+            // Update misi
+            if (!currentUser.missions) currentUser.missions = {};
+            currentUser.missions.bonus = { claimed: true };
+
+            saveCurrentUser();
+            updateUserInDatabase();
+
+            // Update UI
+            document.getElementById('userBalance').innerHTML = `<i class="fas fa-wallet"></i> Rp ${formatNumber(currentUser.balance)}`;
+            renderMissions();
+
+            alert('✅ Berhasil claim bonus awal Rp 10.000!');
+        }
+
+        function claimReferralMission() {
+            if (!currentUser) return;
+
+            const referralCount = currentUser.referrals ? currentUser.referrals.length : 0;
+            if (referralCount === 0) {
+                alert('Belum ada teman yang mendaftar!');
+                return;
+            }
+
+            // Hitung bonus
+            const bonus = referralCount * 25000;
+            currentUser.balance += bonus;
+
+            saveCurrentUser();
+            updateUserInDatabase();
+
+            // Update UI
+            document.getElementById('userBalance').innerHTML = `<i class="fas fa-wallet"></i> Rp ${formatNumber(currentUser.balance)}`;
+            document.getElementById('referralCommission').textContent = 'Rp ' + formatNumber(referralCount * 25000);
+
+            alert(`✅ Berhasil claim bonus referral Rp ${formatNumber(bonus)}!`);
+        }
+
+        // ===== QRIS DEPOSIT (DENGAN DATA DARI LOCALSTORAGE) =====
+        function openQRIS() {
+            const modal = document.getElementById('modal');
+            
+            let qrisImageHtml = '';
+            if (qrisData.image) {
+                qrisImageHtml = `<img src="${qrisData.image}" alt="QRIS ${qrisData.nmid}">`;
+            } else {
+                // Generate QRIS placeholder dengan data dari localStorage
+                qrisImageHtml = `<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23ffffff'/%3E%3Ctext x='10' y='30' font-family='Arial' font-size='8' fill='%23333'%3EQRIS%3C/text%3E%3Ctext x='10' y='50' font-family='Arial' font-size='6' fill='%23666'%3E${qrisData.nmid}%3C/text%3E%3Ctext x='10' y='70' font-family='Arial' font-size='6' fill='%23666'%3E${qrisData.merchant}%3C/text%3E%3Crect x='20' y='20' width='60' height='60' fill='%23f0f0f0' /%3E%3C/svg%3E" alt="QRIS ${qrisData.nmid}">`;
+            }
+
+            document.getElementById('modalBody').innerHTML = `
+                <h3 style="margin-bottom:20px; text-align:center;">Scan QRIS</h3>
+                <div class="qris-container">
+                    <div class="qris-image" onclick="downloadQRIS()">
+                        ${qrisImageHtml}
+                    </div>
+                    <div class="qris-info">
+                        <p><i class="fas fa-info-circle"></i> Scan dengan aplikasi pembayaran</p>
+                        <div class="nmid">NMID: ${qrisData.nmid}</div>
+                        <div class="merchant">Merchant: ${qrisData.merchant}</div>
+                    </div>
+                </div>
+                <form onsubmit="handleQRISDeposit(event)">
+                    <div class="form-group">
+                        <label>Jumlah Deposit (Min Rp 50.000)</label>
+                        <input type="number" id="qrisAmount" min="50000" step="10000" value="50000" required>
+                    </div>
+                    <p style="font-size: 13px; text-align: center; margin: 15px 0; color: var(--success);">
+                        <i class="fas fa-check-circle"></i> QRIS: Otomatis masuk setelah scan
+                    </p>
+                    <button type="submit" class="btn-submit">Saya Sudah Scan & Bayar</button>
+                </form>
+            `;
+            modal.style.display = 'flex';
+        }
+
+        function handleQRISDeposit(e) {
+            e.preventDefault();
+            if (!currentUser) return;
+
+            const amount = parseInt(document.getElementById('qrisAmount').value);
+
+            if (amount < 50000) {
+                alert('Minimal deposit Rp 50.000');
+                return;
+            }
+
+            // QRIS langsung masuk (otomatis)
+            currentUser.balance += amount;
+
+            const transaction = {
+                id: Date.now(),
+                type: 'deposit',
+                amount: amount,
+                method: 'QRIS',
+                status: 'success',
+                date: new Date().toISOString()
+            };
+
+            if (!currentUser.transactions) currentUser.transactions = [];
+            currentUser.transactions.push(transaction);
+
+            // Tambah notifikasi ke ticker
+            addNotification(`${currentUser.name} deposit Rp ${formatNumber(amount)} via QRIS`);
+
+            saveCurrentUser();
+            updateUserInDatabase();
+
+            document.getElementById('userBalance').innerHTML = `<i class="fas fa-wallet"></i> Rp ${formatNumber(currentUser.balance)}`;
+
+            alert(`✅ Deposit QRIS Rp ${formatNumber(amount)} berhasil!`);
+            closeModal();
+            loadHistory('deposit');
+        }
+
+        // Fungsi untuk download QRIS (simulasi)
+        function downloadQRIS() {
+            alert('Klik kanan pada gambar dan pilih "Save image as" untuk menyimpan QRIS');
+        }
+
+        // ===== ADMIN: GANTI QRIS =====
+        function openChangeQRIS() {
+            if (!isAdmin) {
+                alert('Hanya admin yang bisa mengakses!');
+                return;
+            }
+
+            document.getElementById('newQRISNmid').value = qrisData.nmid;
+            document.getElementById('newQRISMerchant').value = qrisData.merchant;
+            document.getElementById('qrisFileName').innerHTML = '';
+            document.getElementById('qrisChangeModal').style.display = 'flex';
+        }
+
+        function closeQRISChangeModal() {
+            document.getElementById('qrisChangeModal').style.display = 'none';
+        }
+
+        function previewQRISImage(input) {
+            if (input.files && input.files[0]) {
+                document.getElementById('qrisFileName').innerHTML = `<i class="fas fa-check-circle" style="color: #4cc9f0;"></i> File: ${input.files[0].name}`;
+            }
+        }
+
+        function saveQRISChange() {
+            const newNmid = document.getElementById('newQRISNmid').value;
+            const newMerchant = document.getElementById('newQRISMerchant').value;
+            const fileInput = document.getElementById('qrisImageFile');
+
+            if (!newNmid || !newMerchant) {
+                alert('NMID dan Merchant harus diisi!');
+                return;
+            }
+
+            qrisData.nmid = newNmid;
+            qrisData.merchant = newMerchant;
+
+            // Jika ada file gambar
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    qrisData.image = e.target.result;
+                    localStorage.setItem('proft_qris', JSON.stringify(qrisData));
+                    alert('✅ QRIS berhasil diubah!');
+                    closeQRISChangeModal();
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                localStorage.setItem('proft_qris', JSON.stringify(qrisData));
+                alert('✅ QRIS berhasil diubah!');
+                closeQRISChangeModal();
+            }
+        }
+
+        // ===== E-WALLET DEPOSIT (PENDING) =====
+        function openEWalletDeposit(method) {
+            const modal = document.getElementById('modal');
+            document.getElementById('modalBody').innerHTML = `
+                <h3 style="margin-bottom:20px;">Deposit via ${method}</h3>
+                <form onsubmit="submitPendingDeposit(event, '${method}')">
+                    <div class="form-group">
+                        <label>Jumlah (Min Rp 50.000)</label>
+                        <input type="number" id="depositAmount" min="50000" step="10000" value="50000" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Nomor Tujuan</label>
+                        <div class="payment-number" onclick="copyNumber('${PAYMENT_NUMBER}')">${PAYMENT_NUMBER} <i class="fas fa-copy" style="font-size: 12px;"></i></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Nama Pengirim</label>
+                        <input type="text" id="senderName" placeholder="Nama sesuai rekening/ewallet" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Bukti Transfer</label>
+                        <div class="upload-area" onclick="document.getElementById('proofFile').click()">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Klik untuk upload bukti transfer</p>
+                            <input type="file" id="proofFile" accept="image/*" style="display: none;" onchange="handleFileSelect(this)">
+                        </div>
+                        <div id="fileName" style="font-size: 12px; margin-top: 5px;"></div>
+                    </div>
+                    <p style="font-size: 12px; color: var(--warning); margin: 10px 0;">
+                        <i class="fas fa-info-circle"></i> Deposit akan diproses setelah admin mengkonfirmasi bukti transfer (maksimal 8 menit).
+                    </p>
+                    <button type="submit" class="btn-submit">Kirim Bukti Transfer</button>
+                </form>
+            `;
+            modal.style.display = 'flex';
+        }
+
+        function handleFileSelect(input) {
+            if (input.files && input.files[0]) {
+                document.getElementById('fileName').innerHTML = `<i class="fas fa-check-circle" style="color: #4cc9f0;"></i> File: ${input.files[0].name}`;
+            }
+        }
+
+        function submitPendingDeposit(e, method) {
+            e.preventDefault();
+            if (!currentUser) return;
+
+            const amount = parseInt(document.getElementById('depositAmount').value);
+            const senderName = document.getElementById('senderName').value;
+            const fileInput = document.getElementById('proofFile');
+
+            if (amount < 50000) {
+                alert('Minimal deposit Rp 50.000');
+                return;
+            }
+
+            if (!senderName) {
+                alert('Masukkan nama pengirim!');
+                return;
+            }
+
+            if (!fileInput.files || !fileInput.files[0]) {
+                alert('Upload bukti transfer!');
+                return;
+            }
+
+            // Simulasi upload file (di real app, ini akan diupload ke server)
+            const reader = new FileReader();
+            reader.onload = function(fileData) {
+                // Buat pending deposit
+                const pending = {
+                    id: Date.now(),
+                    userId: currentUser.id,
+                    userName: currentUser.name,
+                    amount: amount,
+                    method: method,
+                    senderName: senderName,
+                    proof: fileData.result, // base64 image
+                    status: 'pending',
+                    date: new Date().toISOString()
+                };
+
+                pendingDeposits.push(pending);
+                localStorage.setItem('proft_pending', JSON.stringify(pendingDeposits));
+
+                // Tambah ke riwayat user
+                const transaction = {
+                    id: pending.id,
+                    type: 'deposit',
+                    amount: amount,
+                    method: method,
+                    status: 'pending',
+                    date: new Date().toISOString()
+                };
+
+                if (!currentUser.transactions) currentUser.transactions = [];
+                currentUser.transactions.push(transaction);
+                saveCurrentUser();
+                updateUserInDatabase();
+
+                alert(`✅ Bukti transfer berhasil dikirim! Deposit Rp ${formatNumber(amount)} akan diproses dalam maksimal 8 menit.`);
+
+                closeModal();
+                loadHistory('deposit');
+                
+                // Notifikasi admin (simulasi)
+                if (isAdmin) {
+                    loadPendingDeposits();
+                }
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+
+        // ===== WITHDRAW =====
+        function handleWithdraw(e) {
+            e.preventDefault();
+            if (!currentUser) return;
+
+            const amount = parseInt(e.target.querySelector('input[type="number"]').value);
+            const method = e.target.querySelector('select').value;
+            const accountNumber = e.target.querySelectorAll('input[type="text"]')[0].value;
+            const accountName = e.target.querySelectorAll('input[type="text"]')[1].value;
+
+            if (amount < 50000) {
+                alert('Minimal penarikan Rp 50.000');
+                return;
+            }
+
+            if (!accountNumber || !accountName) {
+                alert('Isi nomor dan nama tujuan!');
+                return;
+            }
+
+            if (currentUser.balance < amount) {
+                alert('Saldo tidak cukup!');
+                return;
+            }
+
+            // Kurangi saldo
+            currentUser.balance -= amount;
+
+            // Tambah transaksi
+            const transaction = {
+                id: Date.now(),
+                type: 'withdraw',
+                amount: amount,
+                method: method,
+                accountNumber: accountNumber,
+                accountName: accountName,
+                status: 'pending',
+                date: new Date().toISOString()
+            };
+
+            if (!currentUser.transactions) currentUser.transactions = [];
+            currentUser.transactions.push(transaction);
+
+            // Update statistik withdraw hari ini
+            totalStats.todayWithdraw += amount;
+            saveStats();
+
+            // Tambah notifikasi
+            addNotification(`${currentUser.name} withdraw Rp ${formatNumber(amount)} via ${method}`);
+
+            saveCurrentUser();
+            updateUserInDatabase();
+
+            // Update UI
+            document.getElementById('userBalance').innerHTML = `<i class="fas fa-wallet"></i> Rp ${formatNumber(currentUser.balance)}`;
+
+            alert(`✅ Penarikan Rp ${formatNumber(amount)} diajukan! Akan diproses maksimal 8 menit.`);
+            closeModal();
+            loadHistory('withdraw');
+        }
+
+        // ===== ADMIN FUNCTIONS =====
+        function loadPendingDeposits() {
+            const container = document.getElementById('pendingDeposits');
+            const pending = pendingDeposits.filter(d => d.status === 'pending');
+
+            if (pending.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-secondary);">Tidak ada deposit pending</p>';
+                return;
+            }
+
+            let html = '';
+            pending.slice().reverse().forEach(deposit => {
+                html += `
+                    <div class="pending-item">
+                        <div><strong>${deposit.userName}</strong></div>
+                        <div>Rp ${formatNumber(deposit.amount)} via ${deposit.method}</div>
+                        <div>Pengirim: ${deposit.senderName}</div>
+                        <div style="margin: 5px 0;">
+                            <button class="btn-approve" onclick="approveDeposit(${deposit.id})">✓ Setuju</button>
+                            <button class="btn-reject" onclick="rejectDeposit(${deposit.id})">✗ Tolak</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function approveDeposit(depositId) {
+            const index = pendingDeposits.findIndex(d => d.id === depositId);
+            if (index === -1) return;
+
+            const deposit = pendingDeposits[index];
+            deposit.status = 'approved';
+
+            // Cari user dan tambah saldo
+            const user = users.find(u => u.id === deposit.userId);
+            if (user) {
+                user.balance += deposit.amount;
+
+                // Update status transaksi user
+                if (user.transactions) {
+                    const trans = user.transactions.find(t => t.id === depositId);
+                    if (trans) trans.status = 'success';
+                }
+
+                // Tambah notifikasi
+                addNotification(`${user.name} deposit Rp ${formatNumber(deposit.amount)} via ${deposit.method} BERHASIL`);
+            }
+
+            pendingDeposits.splice(index, 1);
+            localStorage.setItem('proft_pending', JSON.stringify(pendingDeposits));
+            saveUsers();
+
+            alert('Deposit disetujui! Saldo user bertambah.');
+            loadPendingDeposits();
+
+            // Update UI jika user yang sedang login adalah yang bersangkutan
+            if (currentUser && currentUser.id === deposit.userId) {
+                currentUser.balance += deposit.amount;
+                document.getElementById('userBalance').innerHTML = `<i class="fas fa-wallet"></i> Rp ${formatNumber(currentUser.balance)}`;
+                saveCurrentUser();
+            }
+        }
+
+        function rejectDeposit(depositId) {
+            const index = pendingDeposits.findIndex(d => d.id === depositId);
+            if (index === -1) return;
+
+            const deposit = pendingDeposits[index];
+            deposit.status = 'rejected';
+
+            // Update status transaksi user
+            const user = users.find(u => u.id === deposit.userId);
+            if (user && user.transactions) {
+                const trans = user.transactions.find(t => t.id === depositId);
+                if (trans) trans.status = 'rejected';
+            }
+
+            pendingDeposits.splice(index, 1);
+            localStorage.setItem('proft_pending', JSON.stringify(pendingDeposits));
+            saveUsers();
+
+            alert('Deposit ditolak.');
+            loadPendingDeposits();
+        }
+
+        // ===== LOAD DATA =====
+        function loadMyProducts() {
+            if (!currentUser || !currentUser.investments) return;
+
+            const list = document.getElementById('myProductsList');
+            if (currentUser.investments.length === 0) {
+                list.innerHTML = '<div class="history-empty">Belum ada produk yang dibeli</div>';
+                return;
+            }
+
+            let html = '';
+            currentUser.investments.slice().reverse().forEach(inv => {
+                html += `
+                    <div class="history-item">
+                        <div>
+                            <strong>${inv.productName}</strong>
+                            <div style="font-size: 11px; color: var(--text-secondary);">Rp ${formatNumber(inv.amount)}</div>
+                        </div>
+                        <div style="color: #4cc9f0; text-align: right;">
+                            <div>+Rp ${formatNumber(inv.dailyProfit)}/hari</div>
+                            <div style="font-size: 10px;">Total: Rp ${formatNumber(inv.totalProfit)}</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            list.innerHTML = html;
+        }
+
+        function loadProfitHistory() {
+            if (!currentUser || !currentUser.profits) return;
+
+            const list = document.getElementById('profitList');
+            if (currentUser.profits.length === 0) {
+                list.innerHTML = '<div class="history-empty">Belum ada profit</div>';
+                return;
+            }
+
+            let html = '';
+            currentUser.profits.slice(-20).reverse().forEach(profit => {
+                html += `
+                    <div class="history-item">
+                        <div>
+                            <div>${profit.description}</div>
+                            <div style="font-size: 10px; color: var(--text-secondary);">${new Date(profit.date).toLocaleDateString()}</div>
+                        </div>
+                        <div style="color: #4cc9f0; font-weight: bold;">+Rp ${formatNumber(profit.amount)}</div>
+                    </div>
+                `;
+            });
+
+            list.innerHTML = html;
+        }
+
+        function loadHistory(type) {
+            if (!currentUser || !currentUser.transactions) return;
+
+            const list = document.getElementById('historyList');
+            const filtered = currentUser.transactions.filter(t => t.type === type);
+
+            if (filtered.length === 0) {
+                list.innerHTML = '<div class="history-empty">Belum ada transaksi</div>';
+                return;
+            }
+
+            let html = '';
+            filtered.slice(-20).reverse().forEach(t => {
+                const statusClass = t.status === 'success' ? 'success' : 'pending';
+                html += `
+                    <div class="history-item ${statusClass}">
+                        <div>
+                            <div>${type === 'deposit' ? 'Deposit' : 'Withdraw'} via ${t.method}</div>
+                            <div style="font-size: 10px; color: var(--text-secondary);">${new Date(t.date).toLocaleDateString()}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="color: ${type === 'deposit' ? '#4cc9f0' : '#f72585'}; font-weight: bold;">
+                                ${type === 'deposit' ? '+' : '-'} Rp ${formatNumber(t.amount)}
+                            </div>
+                            <div style="font-size: 10px; color: ${t.status === 'success' ? '#4cc9f0' : '#f72585'};">
+                                ${t.status === 'success' ? '✓ Berhasil' : '⏳ Pending'}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            list.innerHTML = html;
+        }
+
+        function loadReferralList() {
+            if (!currentUser || !currentUser.referrals) return;
+
+            const list = document.getElementById('referralList');
+            if (currentUser.referrals.length === 0) {
+                list.innerHTML = '<div class="history-empty">Belum ada teman yang mendaftar</div>';
+                return;
+            }
+
+            let html = '';
+            currentUser.referrals.forEach(refId => {
+                const friend = users.find(u => u.id === refId);
+                if (friend) {
+                    html += `
+                        <div class="history-item">
+                            <div>
+                                <div><i class="fas fa-user"></i> ${friend.name}</div>
+                                <div style="font-size: 10px; color: var(--text-secondary);">${new Date(friend.createdAt).toLocaleDateString()}</div>
+                            </div>
+                            <div style="color: #4cc9f0;"><i class="fas fa-check-circle"></i> Aktif</div>
+                        </div>
+                    `;
+                }
+            });
+
+            list.innerHTML = html;
+        }
+
+        // ===== NOTIFICATIONS =====
+        function addNotification(text) {
+            const ticker = document.getElementById('tickerContent');
+            const item = document.createElement('div');
+            item.className = 'ticker-item';
+            item.innerHTML = `
+                <i class="fas fa-bell"></i>
+                <span>${text}</span>
+            `;
+            ticker.appendChild(item);
+            setTimeout(() => item.remove(), 8000);
+        }
+
+        // ===== SETTINGS =====
+        function openChangePassword() {
+            document.getElementById('passwordModal').style.display = 'flex';
+        }
+
+        function closePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            document.getElementById('oldPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+        }
+
+        function changePassword() {
+            const oldPass = document.getElementById('oldPassword').value;
+            const newPass = document.getElementById('newPassword').value;
+            const confirmPass = document.getElementById('confirmPassword').value;
+
+            if (!oldPass || !newPass || !confirmPass) {
+                alert('Isi semua field!');
+                return;
+            }
+
+            if (currentUser.password !== oldPass) {
+                alert('Password lama salah!');
+                return;
+            }
+
+            if (newPass !== confirmPass) {
+                alert('Password baru tidak cocok!');
+                return;
+            }
+
+            if (newPass.length < 6) {
+                alert('Password minimal 6 karakter!');
+                return;
+            }
+
+            currentUser.password = newPass;
+            saveCurrentUser();
+            updateUserInDatabase();
+
+            alert('✅ Password berhasil diubah!');
+            closePasswordModal();
+        }
+
+        function openLanguageSelector() {
+            document.getElementById('languageSelector').classList.add('active');
+        }
+
+        function closeLanguageSelector() {
+            document.getElementById('languageSelector').classList.remove('active');
+        }
+
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            let langName = 'Indonesia';
+            if (lang === 'en') langName = 'English';
+            if (lang === 'cn') langName = '中文';
+            alert(`✅ Bahasa diubah ke ${langName}`);
+            closeLanguageSelector();
+        }
+
+        // ===== MODAL =====
+        function openModal(type) {
+            const modal = document.getElementById('modal');
+            const modalBody = document.getElementById('modalBody');
+
+            if (type === 'deposit') {
+                modalBody.innerHTML = `
+                    <h3 style="margin-bottom:20px;">Pilih Metode Deposit</h3>
+                    <div style="display: grid; gap: 10px;">
+                        <button class="btn-action deposit" onclick="openQRIS()" style="margin: 0;">
+                            <i class="fas fa-qrcode"></i> QRIS (Otomatis)
+                        </button>
+                        <button class="btn-action deposit" onclick="openEWalletDeposit('DANA')" style="margin: 0; background: linear-gradient(135deg, #4cc9f0, #4361ee);">
+                            <i class="fas fa-mobile-alt"></i> DANA (Pending)
+                        </button>
+                        <button class="btn-action deposit" onclick="openEWalletDeposit('OVO')" style="margin: 0; background: linear-gradient(135deg, #4cc9f0, #4361ee);">
+                            <i class="fas fa-wallet"></i> OVO (Pending)
+                        </button>
+                        <button class="btn-action deposit" onclick="openEWalletDeposit('GoPay')" style="margin: 0; background: linear-gradient(135deg, #4cc9f0, #4361ee);">
+                            <i class="fab fa-google-pay"></i> GoPay (Pending)
+                        </button>
+                        <button class="btn-action deposit" onclick="openEWalletDeposit('ShopeePay')" style="margin: 0; background: linear-gradient(135deg, #4cc9f0, #4361ee);">
+                            <i class="fas fa-shopping-cart"></i> ShopeePay (Pending)
+                        </button>
+                    </div>
+                `;
+            } else {
+                modalBody.innerHTML = `
+                    <h3 style="margin-bottom:20px;">Penarikan Dana</h3>
+                    <p style="font-size: 13px; color: var(--warning); margin-bottom: 15px;">
+                        <i class="fas fa-clock"></i> Proses maksimal 8 menit
+                    </p>
+                    <form onsubmit="handleWithdraw(event)">
+                        <div class="form-group">
+                            <label>Jumlah (Min Rp 50.000)</label>
+                            <input type="number" min="50000" step="10000" value="50000" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Metode</label>
+                            <select required>
+                                <option value="DANA">DANA</option>
+                                <option value="OVO">OVO</option>
+                                <option value="GoPay">GoPay</option>
+                                <option value="ShopeePay">ShopeePay</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Nomor Tujuan</label>
+                            <input type="text" placeholder="Masukkan nomor rekening/ewallet" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Nama Penerima</label>
+                            <input type="text" placeholder="Masukkan nama sesuai rekening" required>
+                        </div>
+                        <button type="submit" class="btn-submit">Ajukan Penarikan</button>
+                    </form>
+                `;
+            }
+
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        // ===== UTILITY =====
+        function generateReferralCode() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = '';
+            for (let i = 0; i < 6; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return code;
+        }
+
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        function copyNumber(number) {
+            navigator.clipboard.writeText(number).then(() => {
+                alert('✅ Nomor berhasil disalin!');
+            });
+        }
+
+        function copyReferralCode() {
+            if (!currentUser) return;
+            navigator.clipboard.writeText(currentUser.referralCode).then(() => {
+                alert('✅ Kode referral berhasil disalin!');
+            });
+        }
+
+        function openLiveChat() {
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=Halo%20PROFT%20PGL%2C%20saya%20butuh%20bantuan%20mengenai%20deposit%2Fpenarikan`, '_blank');
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const theme = body.getAttribute('data-theme');
+            
+            if (theme === 'dark') {
+                body.removeAttribute('data-theme');
+                document.querySelector('.theme-toggle i').className = 'fas fa-moon';
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                document.querySelector('.theme-toggle i').className = 'fas fa-sun';
+            }
+        }
+
+        function showLogin() {
+            document.getElementById('registerPage').style.display = 'none';
+            document.getElementById('loginPage').style.display = 'flex';
+        }
+
+        function showRegister() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('registerPage').style.display = 'flex';
+        }
+
+        function startNotifications() {
+            // Notifikasi awal
+            setTimeout(() => {
+                addNotification('Andi deposit Rp 200.000 via DANA');
+                addNotification('Budi withdraw Rp 300.000 via OVO');
+                addNotification('Citra deposit Rp 100.000 via QRIS');
+                addNotification('Dewi withdraw Rp 50.000 via GoPay');
+                addNotification('Eko deposit Rp 500.000 via ShopeePay');
+                addNotification('Feri withdraw Rp 200.000 via DANA');
+                addNotification('Gita deposit Rp 400.000 via QRIS');
+                addNotification('Hadi withdraw Rp 350.000 via OVO');
+            }, 1000);
+
+            // Notifikasi periodik
+            setInterval(() => {
+                const randomAmount = [50000, 100000, 200000, 300000, 400000, 500000][Math.floor(Math.random() * 6)];
+                const randomName = ['Andi', 'Budi', 'Citra', 'Dewi', 'Eko', 'Feri', 'Gita', 'Hadi', 'Indah', 'Joko'][Math.floor(Math.random() * 10)];
+                const randomMethod = ['DANA', 'OVO', 'GoPay', 'ShopeePay', 'QRIS'][Math.floor(Math.random() * 5)];
+                const randomType = Math.random() > 0.5 ? 'deposit' : 'withdraw';
+                
+                if (randomType === 'deposit') {
+                    addNotification(`${randomName} deposit Rp ${formatNumber(randomAmount)} via ${randomMethod}`);
+                } else {
+                    addNotification(`${randomName} withdraw Rp ${formatNumber(randomAmount)} via ${randomMethod}`);
+                }
+            }, 15000);
+        }
+
+        // ===== DATABASE =====
+        function saveUsers() {
+            localStorage.setItem('proft_users', JSON.stringify(users));
+        }
+
+        function saveStats() {
+            localStorage.setItem('proft_stats', JSON.stringify(totalStats));
+        }
+
+        function saveCurrentUser() {
+            localStorage.setItem('proft_current_user', JSON.stringify(currentUser));
+        }
+
+        function updateUserInDatabase() {
+            const index = users.findIndex(u => u.id === currentUser.id);
+            if (index !== -1) {
+                users[index] = currentUser;
+                saveUsers();
+            }
+        }
+    </script>
+</body>
+</html>
